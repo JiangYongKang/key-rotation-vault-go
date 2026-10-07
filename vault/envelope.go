@@ -6,7 +6,8 @@ import (
 )
 
 // 密文信封格式（自描述）：
-//   magic(2) | formatVersion(1) | keyVersion(4, big-endian) | nonce(12) | ciphertext+GCM tag
+//
+//	magic(2) | formatVersion(1) | keyVersion(4, big-endian) | nonce(12) | ciphertext+GCM tag
 const (
 	envelopeMagic0   = 0x4B // 'K'
 	envelopeMagic1   = 0x56 // 'V'

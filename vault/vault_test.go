@@ -16,6 +16,12 @@ func classify(t *testing.T, err error) string {
 		return "ErrKeyNotFound"
 	case errors.Is(err, ErrKeyDisabled):
 		return "ErrKeyDisabled"
+	case errors.Is(err, ErrKeyRevoked):
+		return "ErrKeyRevoked"
+	case errors.Is(err, ErrKeyExpired):
+		return "ErrKeyExpired"
+	case errors.Is(err, ErrKeyVersionRetired):
+		return "ErrKeyVersionRetired"
 	case errors.Is(err, ErrCiphertextMalformed):
 		return "ErrCiphertextMalformed"
 	case errors.Is(err, ErrUnsupportedVersion):
@@ -107,8 +113,11 @@ func TestDisableAndRevokeBlockDecrypt(t *testing.T) {
 	}
 	_, err = v2.Decrypt("api", ct2)
 	t.Logf("decrypt after revoke: err=%v 判定=%s", err, classify(t, err))
-	if !errors.Is(err, ErrKeyDisabled) {
-		t.Fatalf("expected ErrKeyDisabled after revoke, got %v", err)
+	if !errors.Is(err, ErrKeyRevoked) {
+		t.Fatalf("expected ErrKeyRevoked after revoke, got %v", err)
+	}
+	if errors.Is(err, ErrKeyDisabled) {
+		t.Fatalf("revoked must be distinguishable from disabled")
 	}
 }
 
