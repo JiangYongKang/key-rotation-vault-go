@@ -12,6 +12,14 @@ func classify(t *testing.T, err error) string {
 	switch {
 	case err == nil:
 		return "nil"
+	case errors.Is(err, ErrKeyRetired):
+		return "ErrKeyRetired"
+	case errors.Is(err, ErrCannotRetireCurrent):
+		return "ErrCannotRetireCurrent"
+	case errors.Is(err, ErrKeyExpired):
+		return "ErrKeyExpired"
+	case errors.Is(err, ErrKeyRevoked):
+		return "ErrKeyRevoked"
 	case errors.Is(err, ErrKeyNotFound):
 		return "ErrKeyNotFound"
 	case errors.Is(err, ErrKeyDisabled):
